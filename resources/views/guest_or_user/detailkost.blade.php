@@ -111,58 +111,26 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="fasilitas">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <h5 class="card-title" style="color: #398423;">
-                                                <i class="fas fa-list-ul me-2"></i>Fasilitas Tersedia
-                                            </h5>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-wifi me-2" style="color: #57A438;"></i>
-                                                        <span>WiFi</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-bath me-2" style="color: #57A438;"></i>
-                                                        <span>Kamar mandi dalam</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-bed me-2" style="color: #57A438;"></i>
-                                                        <span>Kasur & Lemari</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-desktop me-2" style="color: #57A438;"></i>
-                                                        <span>Meja Belajar</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-utensils me-2" style="color: #57A438;"></i>
-                                                        <span>Dapur Bersama</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="d-flex align-items-center p-2 rounded"
-                                                        style="background-color: rgba(87, 164, 56, 0.1);">
-                                                        <i class="fas fa-shield-alt me-2" style="color: #57A438;"></i>
-                                                        <span>CCTV & Keamanan 24 Jam</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title" style="color: #398423;">
+                <i class="fas fa-list-ul me-2"></i>Fasilitas Tersedia
+            </h5>
+            <div class="row g-3">
+                @foreach($allFasilitas as $fasilitas)
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center p-2 rounded"
+                         style="background-color: rgba(87, 164, 56, 0.1);">
+                        <i class="fas fa-check-circle me-2" style="color: #57A438;"></i>
+                        <span>{{ $fasilitas->nama }}</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+
 
                                 <div class="tab-pane fade" id="peraturan">
                                     <div class="card border-0 shadow-sm">

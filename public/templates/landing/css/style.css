@@ -153,19 +153,6 @@
     margin-left: 8px;
 }
 
-@media (min-width: 1200px) {
-    .navbar .nav-item .dropdown-menu {
-        display: block;
-        visibility: hidden;
-        top: 100%;
-        transform: rotateX(-75deg);
-        transform-origin: 0% 0%;
-        border: 0;
-        transition: .5s;
-        opacity: 0;
-    }
-}
-
 .dropdown .dropdown-menu a:hover {
     background: var(--bs-secondary);
     color: var(--bs-primary);
@@ -238,17 +225,138 @@
     background-size: cover;
 }
 
-@media (min-width: 992px) {
+
+/* Responsive Styles */
+
+@media (min-width: 1200px) {
+    /* Dropdown menu for large screens (hover effect) */
+    .navbar .nav-item .dropdown-menu {
+        display: block !important;
+        visibility: hidden !important;
+        top: 100% !important;
+        transform: rotateX(-75deg) !important;
+        transform-origin: 0% 0% !important;
+        border: 0 !important;
+        transition: .5s !important;
+        opacity: 0 !important;
+    }
+    .navbar .nav-item:hover .dropdown-menu {
+        visibility: visible !important;
+        transform: rotateX(0deg) !important;
+        opacity: 1 !important;
+    }
+    /* Hide hamburger menu on large screens */
+    .navbar-toggler {
+        display: none !important;
+    }
+    /* Ensure navbar-collapse is visible */
+    .navbar-collapse {
+        display: flex !important;
+    }
+    /* Header margins */
     .hero-header,
     .page-header {
         margin-top: 152px !important;
     }
 }
 
-@media (max-width: 992px) {
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    /* Header margins for medium screens */
+    .hero-header,
+    .page-header {
+        margin-top: 152px !important;
+    }
+    /* Hide hamburger menu if navbar is still expanded */
+    .navbar-toggler {
+        display: none !important;
+    }
+    .navbar-collapse {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    /* Show hamburger menu in responsive mode */
+    .navbar-toggler {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 1000 !important;
+        position: relative !important;
+    }
+    /* Navbar collapse: Full-screen mobile menu */
+    .navbar-collapse {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-color: #fff !important;
+        z-index: 999 !important;
+        padding: 20px !important;
+        overflow-y: auto !important;
+        display: none !important;
+        /* Hidden until toggled */
+    }
+    .navbar-collapse.show {
+        display: block !important;
+    }
+    .navbar-nav {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .navbar-nav .nav-link {
+        padding: 15px 20px !important;
+        font-size: 18px !important;
+        width: 100% !important;
+        border-bottom: 1px solid #eee !important;
+    }
+    /* Dropdown in mobile view */
+    .navbar .nav-item .dropdown-menu {
+        width: 100% !important;
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 20px !important;
+        display: none !important;
+        /* Hidden until toggled */
+    }
+    .navbar .nav-item .dropdown-menu.show {
+        display: block !important;
+    }
+    .navbar .nav-item .dropdown-menu .dropdown-item {
+        color: #333 !important;
+        padding: 10px 0 !important;
+    }
+    .navbar .nav-item .dropdown-menu .dropdown-item:hover {
+        background-color: transparent !important;
+        color: #007bff !important;
+    }
+    /* Hide topbar in responsive mode */
+    .topbar {
+        display: none !important;
+    }
+    /* Adjust chat icon */
+    .position-relative.my-auto {
+        margin-right: 15px !important;
+    }
+    /* Header margins */
     .hero-header,
     .page-header {
         margin-top: 97px !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Further adjustments for smaller screens */
+    .navbar-brand h1 {
+        font-size: 1.5rem !important;
+    }
+    .navbar-toggler {
+        padding: 6px 10px !important;
+    }
+    .navbar-nav .nav-link {
+        font-size: 16px !important;
     }
 }
 

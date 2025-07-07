@@ -6,9 +6,8 @@
                         class="text-white">Palembang</a></small>
                 <small class="me-3">
                     <i class="fas fa-globe me-2 text-secondary"></i>
-                    <a href="https://mykost.com" class="text-white" target="_blank">mykost.site</a>
+                    <a href="https://mykost.site" class="text-white" target="_blank">mykost.site</a>
                 </small>
-
             </div>
             <div class="top-link pe-2">
                 <a href="#" class="text-white"><small class="text-white mx-2">Murah</small>/</a>
@@ -19,7 +18,7 @@
     </div>
     <div class="container px-0">
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
-            <a href="index.html" class="navbar-brand">
+            <a href="{{ route('index') }}" class="navbar-brand">
                 <h1 class="text-primary display-6">MyKost</h1>
             </a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -30,7 +29,7 @@
                 <div class="navbar-nav mx-auto">
                     <a href="{{ route('index') }}"
                         class="nav-item nav-link {{ request()->routeIs('index') ? 'active text-success' : '' }}">
-                        <i ></i> Home
+                        <i class="fas fa-home me-1"></i> Home
                     </a>
                     <a href="{{ route('all_kost') }}"
                         class="nav-item nav-link {{ request()->routeIs('all_kost') ? 'active text-success' : '' }}">
@@ -70,16 +69,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="d-flex m-3 me-0">
-                <a href="{{ route('chat_bot') }}" class="position-relative me-4 my-auto">
-                    <i class="fa fa-comments fa-2x"></i>
-                    <span
-                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">?</span>
-                </a>
+                <div class="d-flex m-3 me-0">
+                    <a href="{{ route('chat_bot') }}" class="position-relative me-4 my-auto">
+                        <i class="fa fa-comments fa-2x"></i>
+                        <span
+                            class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">?</span>
+                    </a>
+                </div>
             </div>
         </nav>
     </div>

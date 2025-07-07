@@ -538,7 +538,7 @@
     showTypingIndicator();
     
     $.ajax({
-      url: 'http://127.0.0.1:5000/predict',
+      url: 'https://donadelia3.pythonanywhere.com/predict',
       method: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({ question: question }),

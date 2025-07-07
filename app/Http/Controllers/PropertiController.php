@@ -311,19 +311,26 @@ class PropertiController extends Controller
     }
     public function detailKost($id_properti)
     {
-        // Ambil properti lengkap dengan relasi yang diperlukan
-
         $properties = Properties::with([
-            'jeniskost',           // relasi jenis kost
-            'rooms',              // relasi kamar-kamar
-            'peraturans',         // relasi peraturan kost
-            'metode_pembayaran'   // relasi metode pembayaran
+            'jeniskost',
+            'rooms.fasilitas',
+            'peraturans',
+            'metode_pembayaran'
         ])->findOrFail($id_properti);
 
-        // Ambil kamar-kamar dari properti ini
-        $rooms = Room::where('is_available', '=', '1')->with(['properti.metode_pembayaran', 'fasilitas'])->get();
-        $rooms = $properties->rooms;
+        $allFasilitas = $properties->rooms->flatMap(function ($room) {
+            return $room->fasilitas;
+        })->unique('id')->values();
 
-        return view('guest_or_user.detailkost', compact('properties', 'rooms'));
+        $availableRooms = $properties->rooms->where('is_available', 1);
+
+        return view('guest_or_user.detailkost', [
+            'properties' => $properties,
+            'allFasilitas' => $allFasilitas,
+            'availableRooms' => $availableRooms,
+            'rooms' => $properties->rooms, // <— ini solusi agar tidak undefined
+        ]);
     }
+
+
 }

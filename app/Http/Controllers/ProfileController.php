@@ -158,7 +158,7 @@ class ProfileController extends Controller
                 // Update data penyewa
                 $request->validate([
                     'nama' => 'required|string|max:255',
-                    'nohp' => 'required|string|max:15',
+                    'no_hp' => 'required|string|max:15',
                     'alamat' => 'required|string|max:255',
                     'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
                     'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -172,7 +172,7 @@ class ProfileController extends Controller
                 }
                 
                 // Update data penyewa
-                $penyewaData = $request->only(['nama', 'nohp', 'alamat', 'jenis_kelamin']);
+                $penyewaData = $request->only(['nama', 'no_hp', 'alamat', 'jenis_kelamin']);
                 
                 // Handle foto upload untuk penyewa
                 if ($request->hasFile('foto')) {
