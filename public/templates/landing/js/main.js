@@ -36,7 +36,7 @@
     // Testimonial carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
-        smartSpeed: 2000,
+        smartSpeed: 50000,
         center: false,
         dots: true,
         loop: true,
@@ -59,7 +59,7 @@
     // Vegetable carousel
     $(".vegetable-carousel").owlCarousel({
         autoplay: true,
-        smartSpeed: 1500,
+        smartSpeed: 100000,
         center: false,
         dots: true,
         loop: true,

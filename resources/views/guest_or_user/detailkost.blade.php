@@ -88,6 +88,13 @@
                                     <button class="nav-link border-white border-bottom-0" type="button"
                                         data-bs-toggle="tab" data-bs-target="#peraturan"
                                         style="color: #398423;">Peraturan</button>
+                                    @if (!empty($properties->latitude) && !empty($properties->longitude))
+                                        <button class="nav-link border-white border-bottom-0" type="button"
+                                            data-bs-toggle="tab" data-bs-target="#lokasi-peta" style="color: #398423;">
+                                            <i class="fas fa-map-marked-alt me-1"></i>Lokasi Peta
+                                        </button>
+                                    @endif
+
                                     {{-- <button class="nav-link border-white border-bottom-0" type="button"
                                         data-bs-toggle="tab" data-bs-target="#metode-pembayaran" style="color: #398423;">Metode Pembayaran</button> --}}
                                 </div>
@@ -111,25 +118,25 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="fasilitas">
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title" style="color: #398423;">
-                <i class="fas fa-list-ul me-2"></i>Fasilitas Tersedia
-            </h5>
-            <div class="row g-3">
-                @foreach($allFasilitas as $fasilitas)
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center p-2 rounded"
-                         style="background-color: rgba(87, 164, 56, 0.1);">
-                        <i class="fas fa-check-circle me-2" style="color: #57A438;"></i>
-                        <span>{{ $fasilitas->nama }}</span>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</div>
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="color: #398423;">
+                                                <i class="fas fa-list-ul me-2"></i>Fasilitas Tersedia
+                                            </h5>
+                                            <div class="row g-3">
+                                                @foreach ($allFasilitas as $fasilitas)
+                                                    <div class="col-md-6">
+                                                        <div class="d-flex align-items-center p-2 rounded"
+                                                            style="background-color: rgba(87, 164, 56, 0.1);">
+                                                            <i class="fas fa-check-circle me-2" style="color: #57A438;"></i>
+                                                            <span>{{ $fasilitas->nama }}</span>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                 <div class="tab-pane fade" id="peraturan">
@@ -207,6 +214,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (!empty($properties->latitude) && !empty($properties->longitude))
+                                    <div class="tab-pane fade" id="lokasi-peta">
+                                        <div class="card border-0 shadow-sm">
+                                            <div class="card-body">
+                                                <h5 class="card-title" style="color: #398423;">
+                                                    <i class="fas fa-map-marked-alt me-2"></i>Lokasi Properti di Peta
+                                                </h5>
+                                                <div id="property-map"
+                                                    style="height: 350px; width: 100%; border-radius: 10px; border: 1px solid #ccc;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+
 
                                 <!-- Tab Metode Pembayaran -->
                                 {{-- <div class="tab-pane fade" id="metode-pembayaran">
@@ -660,6 +682,32 @@
     </div>
     </div>
     </div>
+    @if (!empty($properties->latitude) && !empty($properties->longitude))
+        @push('scripts')
+            <!-- Leaflet CSS & JS -->
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    let mapContainer = document.getElementById('property-map');
+                    if (mapContainer) {
+                        let map = L.map(mapContainer).setView([{{ $properties->latitude }}, {{ $properties->longitude }}],
+                            16);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        L.marker([{{ $properties->latitude }}, {{ $properties->longitude }}])
+                            .addTo(map)
+                            .bindPopup("{{ $properties->nama }}")
+                            .openPopup();
+                    }
+                });
+            </script>
+        @endpush
+    @endif
 
     @push('scripts')
         <script>

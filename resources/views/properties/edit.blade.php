@@ -12,7 +12,7 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label  for="nama">Nama Properti</label>
+                        <label for="nama">Nama Properti</label>
                         <input type="text" name="nama" class="form-control" value="{{ old('nama', $property->nama) }}"
                             required>
                         @error('nama')
@@ -21,12 +21,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="alamat" >Alamat</label>
+                        <label for="alamat">Alamat</label>
                         <textarea name="alamat" class="form-control" required>{{ old('alamat', $property->alamat) }}</textarea>
                         @error('alamat')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <!-- Peta untuk Pilih Lokasi -->
+                    <div class="form-group mt-3">
+                        <label for="map">Tentukan Lokasi di Peta</label>
+                        <div id="map" style="height: 300px; border-radius: 10px;"></div>
+                    </div>
+
+                    <!-- Hidden input untuk simpan koordinat -->
+                    <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude', $property->latitude) }}">
+                    <input type="hidden" id="longitude" name="longitude"
+                        value="{{ old('longitude', $property->longitude) }}">
+
+                    @error('latitude')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    @error('longitude')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <div class="form-group">
                         <label for="kota">Kota</label>
@@ -182,12 +200,35 @@
 
 
 @push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const defaultLat = parseFloat(document.getElementById('latitude').value) || -2.9761; // fallback: Palembang
+        const defaultLng = parseFloat(document.getElementById('longitude').value) || 104.7754;
+
+        const map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const marker = L.marker([defaultLat, defaultLng], {
+            draggable: true
+        }).addTo(map);
+
+        marker.on('dragend', function (e) {
+            const latlng = marker.getLatLng();
+            document.getElementById('latitude').value = latlng.lat;
+            document.getElementById('longitude').value = latlng.lng;
+        });
+    });
         $(document).ready(function() {
             // Initialize Select2 for peraturan
             $('#peraturan_id').select2({

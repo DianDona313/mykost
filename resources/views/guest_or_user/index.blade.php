@@ -51,11 +51,13 @@
     @include('guest_or_user.header_navbar')
     <!-- Hero Start -->
     @include('guest_or_user.banner')
+    @include('guest_or_user.fasilitas')
     <!-- Hero End -->
     <!-- Featurs Section Start -->
-    @yield('content')
+    {{-- @yield('content') --}}
     <!-- Featurs Section End -->
     <!-- Fruits Shop Start-->
+    @include('guest_or_user.kost')
     @include('guest_or_user.kamar_list')
     <!-- Fruits Shop End-->
     <!-- Banner Section Start-->
