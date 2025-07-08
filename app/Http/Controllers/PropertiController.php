@@ -110,6 +110,8 @@ class PropertiController extends Controller
             'kota' => 'required|string|max:100',
             'jeniskost_id' => 'required|exists:jeniskosts,id',
             'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
             'peraturan_id' => 'required|array',
             'peraturan_id.*' => 'exists:peraturans,id',
             'metode_pembayaran' => 'required|array|min:1',
@@ -118,10 +120,12 @@ class PropertiController extends Controller
             'metode_pembayaran.*.atas_nama' => 'required|string|max:255',
         ]);
 
+
         $fotoPath = $request->file('foto')->store('properti_foto', 'public');
         $created_by = Auth::user()->id;
 
         // Simpan properti
+
         $property = Properties::create([
             'nama' => $request->nama,
             'alamat' => $request->alamat,
@@ -129,8 +133,11 @@ class PropertiController extends Controller
             'jeniskost_id' => $request->jeniskost_id,
             'foto' => basename($fotoPath),
             'deskripsi' => $request->deskripsi,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'created_by' => $created_by
         ]);
+
 
         // Sync peraturans
         $property->peraturans()->sync($request->peraturan_id);
@@ -171,6 +178,8 @@ class PropertiController extends Controller
             'kota' => 'required|string|max:100',
             'jeniskost_id' => 'required|exists:jeniskosts,id',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
             'peraturan_id' => 'required|array',
             'peraturan_id.*' => 'exists:peraturans,id',
             'metode_pembayaran' => 'required|array|min:1',
@@ -182,13 +191,14 @@ class PropertiController extends Controller
         $property = Properties::findOrFail($id);
         $updated_by = Auth::user()->id;
 
-        // Data untuk update properti
         $updateData = [
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'kota' => $request->kota,
             'jeniskost_id' => $request->jeniskost_id,
             'deskripsi' => $request->deskripsi,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'updated_by' => $updated_by,
         ];
 
@@ -311,19 +321,26 @@ class PropertiController extends Controller
     }
     public function detailKost($id_properti)
     {
-        // Ambil properti lengkap dengan relasi yang diperlukan
-
         $properties = Properties::with([
-            'jeniskost',           // relasi jenis kost
-            'rooms',              // relasi kamar-kamar
-            'peraturans',         // relasi peraturan kost
-            'metode_pembayaran'   // relasi metode pembayaran
+            'jeniskost',
+            'rooms.fasilitas',
+            'peraturans',
+            'metode_pembayaran'
         ])->findOrFail($id_properti);
 
-        // Ambil kamar-kamar dari properti ini
-        $rooms = Room::where('is_available', '=', '1')->with(['properti.metode_pembayaran', 'fasilitas'])->get();
-        $rooms = $properties->rooms;
+        $allFasilitas = $properties->rooms->flatMap(function ($room) {
+            return $room->fasilitas;
+        })->unique('id')->values();
 
-        return view('guest_or_user.detailkost', compact('properties', 'rooms'));
+        $availableRooms = $properties->rooms->where('is_available', 1);
+
+        return view('guest_or_user.detailkost', [
+            'properties' => $properties,
+            'allFasilitas' => $allFasilitas,
+            'availableRooms' => $availableRooms,
+            'rooms' => $properties->rooms, // <— ini solusi agar tidak undefined
+        ]);
     }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Metode_Pembayaran;
+use App\Models\Pengelola;
 use App\Models\Penyewa;
 use App\Models\Properti;
 use App\Models\Properties;
@@ -37,12 +38,25 @@ class BookingController extends Controller
             // Cek role
             if ($user->hasRole('Penyewa')) {
                 // Temukan penyewa berdasarkan user_id
-                $penyewa = \App\Models\Penyewa::where('user_id', $userId)->first();
+                $penyewa = Penyewa::where('user_id', $userId)->first();
 
                 if ($penyewa) {
                     $query->where('penyewa_id', $penyewa->id);
                 } else {
                     // Jika penyewa tidak ditemukan, kembalikan query kosong
+                    $query->whereRaw('1 = 0');
+                }
+            }
+
+            if ($user->hasRole('Pengelola')) {
+                $pengelola = Pengelola::where('user_id', $userId)->first();
+                if ($pengelola) {
+                    $query->whereHas('property', function ($query) use ($pengelola) {
+                        $query->whereHas('pengelola', function ($subQuery) use ($pengelola) {
+                            $subQuery->where('pengelolas.id', $pengelola->id);
+                        });
+                    })->whereNull('bookings.deleted_at');
+                } else {
                     $query->whereRaw('1 = 0');
                 }
             }

@@ -32,6 +32,7 @@ class LandingController extends Controller
 
     public function all_rooms()
     {
+        $properties = Properties::all();
         $rooms = Room::where('is_available', '=', '1')->with(['properti.metode_pembayaran', 'fasilitas'])->get();
         return view('guest_or_user.all_rooms', compact('rooms'));
     }

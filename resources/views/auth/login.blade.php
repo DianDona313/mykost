@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - Role Management System</title>
+    <title>Masuk - Sistem Manajemen Peran</title>
     @laravelPWA
     
     <link rel="icon" href="{{ asset('/templates/landing/img/logomykostt.png') }}" type="image/png">
@@ -71,12 +71,12 @@
                     <div class="card-header login-header text-center py-4">
                         <h3 class="mb-0">
                             <i class="fas fa-shield-alt me-2"></i>
-                            Log-In
+                            Masuk
                         </h3>
-                        <p class="mb-0 mt-2">Please sign in to your account</p>
+                        <p class="mb-0 mt-2">Silakan masuk ke akun Anda</p>
                     </div>
                     <div class="card-body p-5">
-                        <!-- Alert Messages -->
+                        <!-- Pesan Alert -->
                         @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <i class="fas fa-check-circle me-2"></i>
@@ -96,7 +96,7 @@
                         @if($errors->any())
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-triangle me-2"></i>
-                            <strong>Whoops!</strong> There were some problems with your input.
+                            <strong>Ups!</strong> Ada beberapa masalah dengan input Anda:
                             <ul class="mb-0 mt-2">
                                 @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -109,41 +109,39 @@
 
                         <div class="mb-4">
                             <label for="email" class="form-label">
-                                <i class="fas fa-envelope me-2"></i>Email Address
+                                <i class="fas fa-envelope me-2"></i>Alamat Email
                             </label>
-                            {!! html()->email('email')->class('form-control form-control-lg')->placeholder('Enter your
-                            email')->required() !!}
+                            {!! html()->email('email')->class('form-control form-control-lg')->placeholder('Masukkan email Anda')->required() !!}
                         </div>
 
                         <div class="mb-4">
                             <label for="password" class="form-label">
-                                <i class="fas fa-lock me-2"></i>Password
+                                <i class="fas fa-lock me-2"></i>Kata Sandi
                             </label>
-                            {!! html()->password('password')->class('form-control form-control-lg')->placeholder('Enter
-                            your password')->required() !!}
+                            {!! html()->password('password')->class('form-control form-control-lg')->placeholder('Masukkan kata sandi Anda')->required() !!}
                         </div>
 
                         <div class="mb-4">
                             <div class="form-check">
                                 {!! html()->checkbox('remember')->class('form-check-input')->id('remember') !!}
                                 <label class="form-check-label" for="remember">
-                                    Remember Me
+                                    Ingat Saya
                                 </label>
                             </div>
                         </div>
 
                         <div class="d-grid mb-4">
-                            {!! html()->submit('Sign In')->class('btn btn-login btn-lg text-white') !!}
+                            {!! html()->submit('Masuk')->class('btn btn-login btn-lg text-white') !!}
                         </div>
 
                         {!! html()->form()->close() !!}
 
                         <div class="text-center">
                             <p class="mb-0">
-                                Don't have an account?
+                                Belum punya akun?
                                 <a href="{{ route('register') }}" class="text-decoration-none fw-bold"
                                     style="color: #398423;">
-                                    Sign up here
+                                    Daftar di sini
                                 </a>
                             </p>
                         </div>

@@ -27,7 +27,7 @@
 
                     <div class="mb-3">
                         <label for="deskripsi" class="form-label">Deskripsi</label>
-                        <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" required></textarea>
+                        <textarea name="deskripsi" class="form-control" id="deskripsi" rows="3" ></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>

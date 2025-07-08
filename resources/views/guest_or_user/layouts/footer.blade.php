@@ -6,18 +6,17 @@
             <div class="col-lg-6 col-md-12">
                 <h1 class="text-white mb-3 fw-bold">MyKost</h1>
                 <p class="small text-white-50 mb-0">
-                    MyKost adalah solusi hunian kost yang nyaman, aman, dan mudah ditemukan untuk para pencari tempat tinggal.
+                    MyKost adalah solusi hunian kost yang nyaman, aman, dan mudah ditemukan untuk para pencari tempat
+                    tinggal.
                     Temukan tempat tinggal terbaik sesuai kebutuhan Anda.
                 </p>
             </div>
 
             <!-- Kanan -->
             <div class="col-lg-6 col-md-12 text-lg-end text-center">
-                <p class="text-white mb-2">Connect with me:</p>
-                <a class="btn btn-sm-square rounded-circle me-2"
-                   href="https://www.linkedin.com/in/dian-dona-adelia/"
-                   target="_blank"
-                   style="border: 2px solid #F09F38; color: #F09F38;">
+                {{-- <p class="text-white mb-2">Connect with me:</p> --}}
+                <a class="btn btn-sm-square rounded-circle me-2" href="https://www.linkedin.com/in/dian-dona-adelia/"
+                    target="_blank" style="border: 2px solid #F09F38; color: #F09F38;">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
@@ -34,9 +33,9 @@
                 &copy; {{ date('Y') }} <strong class="text-white">MyKost</strong>. All rights reserved.
             </div>
             <div class="col-md-6 text-md-end text-white-50">
-                Designed & Developed by 
-                <a href="https://www.linkedin.com/in/dian-dona-adelia/"
-                   class="text-decoration-underline text-white" target="_blank">
+                Designed & Developed by
+                <a href="https://www.linkedin.com/in/dian-dona-adelia/" class="text-decoration-underline text-white"
+                    target="_blank">
                     Dian Dona Adelia
                 </a>
             </div>
@@ -51,16 +50,6 @@
 
 
 <!-- JavaScript Libraries -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/templates/landing/lib/easing/easing.min.js"></script>
-<script src="/templates/landing/lib/waypoints/waypoints.min.js"></script>
-<script src="/templates/landing/lib/lightbox/js/lightbox.min.js"></script>
-<script src="/templates/landing/lib/owlcarousel/owl.carousel.min.js"></script>
-
-<!-- Template Javascript -->
-<script src="/templates/landing/js/main.js"></script>
-@stack('scripts')
 </body>
 
 </html>

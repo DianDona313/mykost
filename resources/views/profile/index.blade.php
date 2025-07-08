@@ -45,7 +45,11 @@
                                                 <p><strong>Email:</strong> {{ $user->email ?? '-' }}</p>
                                                 <p><strong>No HP:</strong>
                                                     {{ $profileData->nohp ?? ($profileData->no_telp_pengelola ?? '-') }}</p>
-                                                <p><strong>Jenis Kelamin:</strong> {{ $profileData->jenis_kelamin ?? '-' }}
+                                                @unless (auth()->user()->hasRole('Pengelola'))
+                                                    <p><strong>Jenis Kelamin:</strong> {{ $profileData->jenis_kelamin ?? '-' }}
+                                                    </p>
+                                                @endunless
+
                                                 </p>
                                             </div>
                                             <div class="col-md-6">

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\JenisKost;
 use App\Models\Payment;
+use App\Models\Pengelola;
 use App\Models\Penyewa;
 use App\Models\User;
 use App\Services\FonnteService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class PenyewaController extends Controller
@@ -24,11 +26,25 @@ class PenyewaController extends Controller
         $this->middleware('permission:penyewa-delete', ['only' => ['destroy']]);
     }
 
+
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
-            $data = Penyewa::with('bookings.property', 'bookings.room', 'payments')->latest()->get();
+            // Query dasar dengan eager loading untuk mengoptimalkan performa
+            $query = Penyewa::with(['bookings.property.pengelolas', 'bookings.room', 'payments']);
+
+            // Filter berdasarkan role user
+            if (Auth::user()->hasRole('Pengelola')) {
+                $query = $query->whereHas('bookings.property', function ($query) {
+                    $query->whereHas('pengelola', function ($subQuery) {
+                        $subQuery->where('pengelolas.user_id', Auth::user()->id);
+                    });
+                });
+            }
+
+            // Ambil data dengan urutan terbaru
+            $data = $query->latest()->get();
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -36,50 +52,48 @@ class PenyewaController extends Controller
 
                     // Tombol Lihat (biru muda)
                     $btn .= '<a href="' . route('penyewas.show', $row->id) . '" 
-        class="btn btn-sm text-white" 
-        style="background-color:#60a5fa; border-radius: 0.375rem 0 0 0.375rem;" 
-        title="Lihat">
-        <i class="fas fa-eye"></i>
-    </a>';
+                             class="btn btn-sm text-white" 
+                             style="background-color:#60a5fa; border-radius: 0.375rem 0 0 0.375rem;" 
+                             title="Lihat">
+                             <i class="fas fa-eye"></i>
+                           </a>';
 
                     // Tombol Edit (biru)
-                    if (auth()->user()->can('penyewa-edit')) {
+                    if (Auth::user()->can('penyewa-edit')) {
                         $btn .= '<a href="' . route('penyewas.edit', $row->id) . '" 
-            class="btn btn-sm text-white" 
-            style="background-color:#3b82f6; border-radius: 0; margin-left:-1px;" 
-            title="Edit">
-            <i class="fas fa-edit"></i>
-        </a>';
+                                 class="btn btn-sm text-white" 
+                                 style="background-color:#3b82f6; border-radius: 0; margin-left:-1px;" 
+                                 title="Edit">
+                                 <i class="fas fa-edit"></i>
+                               </a>';
                     }
 
                     // Tombol Tagih (hijau)
-                    if (auth()->user()->can('penyewa-tagih')) {
+                    if (Auth::user()->can('penyewa-tagih')) {
                         $btn .= '<a href="' . route('tagih.penyewa', $row->id) . '" 
-            class="btn btn-sm text-white" 
-            style="background-color:#10b981; border-radius: 0; margin-left:-1px;" 
-            title="Tagih">
-            <i class="fab fa-whatsapp"></i>
-        </a>';
+                                 class="btn btn-sm text-white" 
+                                 style="background-color:#10b981; border-radius: 0; margin-left:-1px;" 
+                                 title="Tagih">
+                                 <i class="fab fa-whatsapp"></i>
+                               </a>';
                     }
 
                     // Tombol Hapus (merah)
-                    if (auth()->user()->can('penyewa-delete')) {
-                        $btn .= '
-        <form action="' . route('penyewas.destroy', $row->id) . '" method="POST" class="d-inline" 
-              onsubmit="return confirm(\'Yakin ingin menghapus penyewa ini?\');" style="margin-left:-1px;">
-            ' . csrf_field() . method_field('DELETE') . '
-            <button type="submit" class="btn btn-sm text-white" 
-                    style="background-color:#ef4444; border-radius: 0 0.375rem 0.375rem 0;" 
-                    title="Hapus">
-                <i class="fas fa-trash"></i>
-            </button>
-        </form>';
+                    if (Auth::user()->can('penyewa-delete')) {
+                        $btn .= '<form action="' . route('penyewas.destroy', $row->id) . '" method="POST" class="d-inline" 
+                                 onsubmit="return confirm(\'Yakin ingin menghapus penyewa ini?\');" style="margin-left:-1px;">
+                                 ' . csrf_field() . method_field('DELETE') . '
+                                 <button type="submit" class="btn btn-sm text-white" 
+                                         style="background-color:#ef4444; border-radius: 0 0.375rem 0.375rem 0;" 
+                                         title="Hapus">
+                                     <i class="fas fa-trash"></i>
+                                 </button>
+                             </form>';
                     }
 
                     $btn .= '</div>';
                     return $btn;
                 })
-
                 ->addColumn('pengguna', function ($row) {
                     return $row->nama;
                 })
@@ -93,7 +107,6 @@ class PenyewaController extends Controller
                     return $row->nohp;
                 })
                 ->addColumn('sisa_pembayaran', function ($row) {
-                    // Menjumlah semua sisa_pembayaran dari relasi payments
                     $sisa = $row->payments->sum('sisa_pembayaran');
                     return 'Rp ' . number_format($sisa, 0, ',', '.');
                 })
@@ -103,7 +116,6 @@ class PenyewaController extends Controller
 
         return view('penyewas.index');
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -204,7 +216,7 @@ class PenyewaController extends Controller
     public function destroy(Penyewa $penyewa)
     {
         $penyewa->delete(); // SoftDeletes: tidak langsung menghapus dari database
-        $user = User::where('id','=',$penyewa->user_id)->first();
+        $user = User::where('id', '=', $penyewa->user_id)->first();
         $user->delete();
         return redirect()->route('penyewas.index')
             ->with('success', 'Penyewa berhasil dihapus.');
