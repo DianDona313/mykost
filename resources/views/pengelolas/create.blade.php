@@ -143,7 +143,6 @@
                                                 @error('status')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
->>>>>>> d926ed0a6ff670f876fb98f034c1c996afd3b854
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +260,6 @@
                     }
                 });
 
-<<<<<<< HEAD
     // Phone number formatting
     // const phoneInput = document.getElementById('no_telp_pengelola');
     // phoneInput.addEventListener('input', function(e) {
@@ -277,19 +275,18 @@
     //     }
     //     e.target.value = value;
     // });
-=======
                 // Phone number formatting
                 const phoneInput = document.getElementById('no_telp_pengelola');
                 phoneInput.addEventListener('input', function(e) {
                     let value = e.target.value.replace(/\D/g, '');
                     if (value.length > 0) {
-                        if (value.startsWith('0')) {
-                            // Format: 08xx-xxxx-xxxx
-                            value = value.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
-                        } else if (value.startsWith('62')) {
-                            // Format: +62xxx-xxxx-xxxx
-                            value = '+' + value.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1$2-$3-$4');
-                        }
+                        // if (value.startsWith('0')) {
+                        //     // Format: 08xx-xxxx-xxxx
+                        //     value = value.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+                        // } else if (value.startsWith('62')) {
+                        //     // Format: +62xxx-xxxx-xxxx
+                        //     value = '+' + value.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1$2-$3-$4');
+                        // }
                     }
                     e.target.value = value;
                 });
@@ -323,7 +320,6 @@
             }
         </script>
     @endpush
->>>>>>> d926ed0a6ff670f876fb98f034c1c996afd3b854
 
     @push('styles')
         <style>
