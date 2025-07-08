@@ -21,6 +21,7 @@
     <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <!-- Libraries Stylesheet -->
     <link href="/templates/landing/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
@@ -33,23 +34,13 @@
     <!-- Template Stylesheet -->
     <link href="/templates/landing/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
-
-    <style>
-        .navbar-toggler {
-            z-index: 1050;
-        }
-    </style>
-
+    <script src="/templates/landing/lib/easing/easing.min.js"></script>
+    <script src="/templates/landing/lib/waypoints/waypoints.min.js"></script>
+    <script src="/templates/landing/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="/templates/landing/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/templates/landing/js/main.js"></script>
+    @stack('scripts')
 </head>
 
 <body>
-
-    <!-- Spinner Start -->
-
-    @include('guest_or_user.layouts.spinner')
-    <!-- Spinner End -->
-
-    <!-- Navbar start -->
-    @include('guest_or_user.header_navbar')
-    <!-- Navbar End -->

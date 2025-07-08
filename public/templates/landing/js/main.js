@@ -79,23 +79,6 @@
         }
     });
 
-    // Modal Video
-    $(document).ready(function() {
-        var $videoSrc;
-        $('.btn-play').click(function() {
-            $videoSrc = $(this).data("src");
-        });
-        console.log($videoSrc);
-
-        $('#videoModal').on('shown.bs.modal', function(e) {
-            $("#video").attr('src', $videoSrc + "?autoplay=1&modestbranding=1&showinfo=0");
-        });
-
-        $('#videoModal').on('hide.bs.modal', function(e) {
-            $("#video").attr('src', $videoSrc);
-        });
-    });
-
     // Product Quantity
     $('.quantity button').on('click', function() {
         var button = $(this);
@@ -112,6 +95,5 @@
         button.parent().parent().find('input').val(newVal);
     });
 
-    // Hamburger menu toggle
 
 })(jQuery);

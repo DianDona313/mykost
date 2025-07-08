@@ -88,7 +88,7 @@ class PeraturanController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string', // Ubah dari required menjadi nullable
+            'deskripsi' => 'nullable|string', 
             'created_by' => 'nullable|integer',
         ]);
 

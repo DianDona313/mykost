@@ -1,10 +1,3 @@
-<meta name="csrf-token" content="{{ csrf_token() }}">
-@if(session('success'))
-<meta name="success-message" content="{{ session('success') }}">
-@endif
-@if(session('error'))
-<meta name="error-message" content="{{ session('error') }}">
-@endif
 <div class="container-fluid rooms py-5">
     <div class="container py-5">
         <div class="text-center">
@@ -13,7 +6,7 @@
                     <h1 class="mb-0">Kamar List</h1>
                 </div>
                 <div class="col-lg-6 text-end">
-                    <a href="{{route('all_rooms')}}" class="btn btn-primary rounded-pill px-4 py-2">Lihat Lebih</a>
+                    <a href="{{ route('all_rooms') }}" class="btn btn-primary rounded-pill px-4 py-2">Lihat Lebih</a>
                 </div>
             </div>
 
@@ -22,19 +15,15 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="card h-100 border-secondary" style="max-height: 400px;">
                         <div class="room-img" style="height: 150px; overflow: hidden;">
-                            <img src="{{ asset('storage/'.$room->foto) }}" class="img-fluid w-100 h-100"
+                            <img src="{{ asset('storage/' . $room->foto) }}" class="img-fluid w-100 h-100"
                                 style="object-fit: cover;" alt="{{ $room->room_name }}">
                         </div>
-
                         <div class="card-body d-flex flex-column" style="height: calc(100% - 150px);">
                             <h5 class="card-title">{{ $room->room_name }}</h5>
                             <p class="card-text text-muted mb-2 flex-grow-1"
                                 style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                                 {{ $room->room_deskription }}
                             </p>
-                            {{--
-                            <pre>{{ json_encode($room->properti->metode_pembayaran) }}</pre> --}}
-
                             <div class="d-flex justify-content-between align-items-center mt-auto">
                                 <p class="text-dark fw-bold mb-0">Rp {{ number_format($room->harga, 0, ',', '.') }}</p>
                                 <button class="btn btn-outline-primary rounded-pill px-3" data-bs-toggle="modal"
@@ -75,7 +64,6 @@
                 <input type="hidden" id="modalFullDataHarga" name="harga">
                 <input type="hidden" id="modalFullDataRoomId" name="room_id">
                 <input type="hidden" id="modalFullDataPropertiId" name="properti_id">
-
                 <p><strong>Properti:</strong> <span id="modalProperti"></span></p>
                 <p><strong>Fasilitas:</strong> <span id="modalFasilitas"></span></p>
             </div>
@@ -101,7 +89,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="overflow-y: auto; max-height: 70vh;">
-                <form id="paymentForm" method="POST" action="{{route('booking_proses')}}" enctype="multipart/form-data">
+                <form id="paymentForm" method="POST" action="{{ route('booking_proses') }}"
+                    enctype="multipart/form-data">
                     @csrf
                     <!-- Detail Kamar -->
                     <div class="card mb-3">
@@ -124,7 +113,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Form Input -->
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -155,7 +143,6 @@
                                 <input type="hidden" id="totalHargaValue" name="total_harga">
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="jumlah_yang_bayar" class="form-label">Jumlah Yang Dibayar</label>
@@ -163,7 +150,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Metode Pembayaran -->
                     <div class="form-group mt-3">
                         <label for="metode_pembayaran_id" class="form-label">Pilih Metode Pembayaran</label>
@@ -171,7 +157,6 @@
                             <option value="">-- Pilih Metode Pembayaran --</option>
                         </select>
                     </div>
-
                     <!-- Detail Rekening -->
                     <div class="card mt-3" id="rekeningDetail" style="display: none;">
                         <div class="card-header bg-info text-white">
@@ -183,14 +168,12 @@
                             <p class="mb-0"><strong>Atas Nama:</strong> <span id="detailAtasNama"></span></p>
                         </div>
                     </div>
-
                     <!-- Upload Bukti Pembayaran -->
                     <div class="form-group mt-3">
                         <label for="foto" class="form-label">Bukti Pembayaran</label>
                         <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
                         <small class="text-muted">Upload foto bukti transfer (format: JPG/PNG, maks 2MB)</small>
                     </div>
-
                     <!-- Hidden Fields -->
                     <input type="hidden" id="paymentRoomId" name="room_id">
                     <input type="hidden" id="paymentPropertiId" name="properti_id">
@@ -206,6 +189,7 @@
     </div>
 </div>
 
+<!-- Modal Booking Status -->
 <div class="modal fade" id="bookingStatusModal" tabindex="-1" aria-labelledby="bookingStatusModalLabel"
     aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
@@ -221,7 +205,6 @@
                         <i class="fas fa-check text-white" style="font-size: 40px;"></i>
                     </div>
                 </div>
-
                 <!-- Error Icon -->
                 <div id="errorIcon" class="mb-3" style="display: none;">
                     <div class="mx-auto"
@@ -229,7 +212,6 @@
                         <i class="fas fa-times text-white" style="font-size: 40px;"></i>
                     </div>
                 </div>
-
                 <!-- Loading Icon -->
                 <div id="loadingIcon" class="mb-3" style="display: none;">
                     <div class="mx-auto"
@@ -239,14 +221,11 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Status Title -->
                 <h4 id="statusTitle" class="mb-3"></h4>
-
                 <!-- Status Message -->
                 <p id="statusMessage" class="text-muted mb-4"></p>
-
-                <!-- Booking Details (untuk success) -->
+                <!-- Booking Details -->
                 <div id="bookingDetails" style="display: none;">
                     <div class="card border-light bg-light">
                         <div class="card-body">
@@ -287,7 +266,7 @@
     </div>
 </div>
 
-<!-- Toast Notification (Alternative) -->
+<!-- Toast Notification -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="bookingToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -296,21 +275,19 @@
             <small id="toastTime">now</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body" id="toastMessage">
-            <!-- Toast message here -->
-        </div>
+        <div class="toast-body" id="toastMessage"></div>
     </div>
 </div>
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     // Global variables
     let selectedMetodePembayaran = [];
     let hargaSatuan = 0;
     const toastContainer = document.querySelector('.toast-container');
     const bookingToast = document.getElementById('bookingToast');
-    
+
     // Initialize Bootstrap tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -348,7 +325,7 @@
     });
 
     // Lanjut Booking Button - Click event
-    document.getElementById('lanjutBookingBtn').addEventListener('click', function() {
+    document.getElementById('lanjutBookingBtn').addEventListener('click', function () {
         // Hide booking modal
         const bookingModalInstance = bootstrap.Modal.getInstance(bookingModal);
         bookingModalInstance.hide();
@@ -372,8 +349,8 @@
         // Populate metode pembayaran options
         const metodePembayaranSelect = document.getElementById('metode_pembayaran_id');
         metodePembayaranSelect.innerHTML = '<option value="">-- Pilih Metode Pembayaran --</option>';
-        
-        selectedMetodePembayaran.forEach(function(metode) {
+
+        selectedMetodePembayaran.forEach(function (metode) {
             const option = document.createElement('option');
             option.value = metode.id;
             option.textContent = `${metode.nama_bank} - ${metode.no_rek}`;
@@ -397,10 +374,10 @@
     });
 
     // Handle metode pembayaran selection
-    document.getElementById('metode_pembayaran_id').addEventListener('change', function() {
+    document.getElementById('metode_pembayaran_id').addEventListener('change', function () {
         const selectedOption = this.options[this.selectedIndex];
         const rekeningDetail = document.getElementById('rekeningDetail');
-        
+
         if (selectedOption.value) {
             document.getElementById('detailBank').textContent = selectedOption.dataset.bank;
             document.getElementById('detailNoRek').textContent = selectedOption.dataset.noRek;
@@ -412,21 +389,21 @@
     });
 
     // Handle start date change
-    document.getElementById('start_date').addEventListener('change', function() {
+    document.getElementById('start_date').addEventListener('change', function () {
         const startDate = new Date(this.value);
         const jumlahBulan = parseInt(document.getElementById('jumlah').value) || 0;
-        
+
         if (jumlahBulan > 0) {
             calculateEndDate(startDate, jumlahBulan);
         }
     });
 
     // Handle jumlah bulan calculation
-    document.getElementById('jumlah').addEventListener('input', function() {
+    document.getElementById('jumlah').addEventListener('input', function () {
         const jumlah = parseInt(this.value) || 0;
         const total = hargaSatuan * jumlah;
         const startDateInput = document.getElementById('start_date');
-        
+
         document.getElementById('totalHarga').value = 'Rp ' + total.toLocaleString('id-ID');
         document.getElementById('totalHargaValue').value = total;
 
@@ -443,7 +420,7 @@
             jumlahYangBayarInput.setAttribute('min', minPayment);
             jumlahYangBayarInput.setAttribute('max', total);
             jumlahYangBayarInput.setAttribute('placeholder', `Min: Rp ${minPayment.toLocaleString('id-ID')}`);
-            
+
             // Validate current payment value
             if (jumlahYangBayarInput.value) {
                 const currentPayment = parseInt(jumlahYangBayarInput.value);
@@ -457,14 +434,15 @@
     // Handle jumlah yang dibayar validation
     const jumlahYangBayarInput = document.querySelector('input[name="jumlah_yang_bayar"]');
     if (jumlahYangBayarInput) {
-        jumlahYangBayarInput.addEventListener('input', function() {
+        jumlahYangBayarInput.addEventListener('input', function () {
             const totalHarga = parseInt(document.getElementById('totalHargaValue').value) || 0;
             const jumlahYangDibayar = parseInt(this.value) || 0;
             const minPayment = Math.ceil(totalHarga * 0.5);
-            
+
             if (totalHarga > 0) {
                 if (jumlahYangDibayar < minPayment) {
-                    this.setCustomValidity(`Pembayaran minimal 50% dari total harga (Rp ${minPayment.toLocaleString('id-ID')})`);
+                    this.setCustomValidity(
+                        `Pembayaran minimal 50% dari total harga (Rp ${minPayment.toLocaleString('id-ID')})`);
                 } else if (jumlahYangDibayar > totalHarga) {
                     this.setCustomValidity('Pembayaran tidak boleh melebihi total harga');
                 } else {
@@ -478,25 +456,23 @@
     function calculateEndDate(startDate, jumlahBulan) {
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + jumlahBulan);
-        
-        // Format date to YYYY-MM-DD for input type="date"
         const formattedEndDate = endDate.toISOString().split('T')[0];
         document.getElementById('end_date').value = formattedEndDate;
     }
 
     // File upload validation
-    document.getElementById('foto').addEventListener('change', function(e) {
+    document.getElementById('foto').addEventListener('change', function (e) {
         const file = e.target.files[0];
         const maxSize = 2 * 1024 * 1024; // 2MB
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-        
+
         if (file) {
             if (!allowedTypes.includes(file.type)) {
                 showToast('error', 'Format File Tidak Valid', 'Hanya file JPG, PNG, atau GIF yang diperbolehkan.');
                 this.value = '';
                 return;
             }
-            
+
             if (file.size > maxSize) {
                 showToast('error', 'Ukuran File Terlalu Besar', 'Ukuran file maksimal 2MB.');
                 this.value = '';
@@ -505,58 +481,41 @@
         }
     });
 
-    // Handle form submission - INI YANG DIPERBAIKI
-    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+    // Handle form submission
+    document.getElementById('paymentForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        
-        console.log('Form submitted'); // Debug log
-        
-        // Validate form
+
+        console.log('Form submitted');
+
         if (!this.checkValidity()) {
             this.classList.add('was-validated');
             showToast('error', 'Validasi Gagal', 'Mohon lengkapi semua field yang diperlukan.');
             return;
         }
-        
-        // Show loading modal
+
         showLoadingModal();
-        
-        // Disable submit button - PERBAIKI SELECTOR
+
         const submitBtn = document.querySelector('button[type="submit"][form="paymentForm"]');
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Memproses...';
         }
-        
-        // Get form data
+
         const formData = new FormData(this);
-        
-        // Debug: Log form data
-        console.log('Sending form data...');
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-        
-        // Send AJAX request
+
         fetch(this.action, {
             method: 'POST',
             body: formData,
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         })
         .then(response => {
-            console.log('Response status:', response.status); // Debug log
-            
-            // Clone response untuk membaca body dua kali
-            const responseClone = response.clone();
-            
+            console.log('Response status:', response.status);
             return response.text().then(text => {
-                console.log('Response text:', text); // Debug log
-                
-                // Coba parse sebagai JSON
+                console.log('Response text:', text);
                 try {
                     const data = JSON.parse(text);
                     return { data, status: response.status, ok: response.ok };
@@ -567,29 +526,17 @@
             });
         })
         .then(({ data, status, ok }) => {
-            console.log('Parsed data:', data); // Debug log
-            
+            console.log('Parsed data:', data);
             if (ok && data.success) {
-                // Hide payment modal
                 const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-                if (paymentModal) {
-                    paymentModal.hide();
-                }
-                
-                // Show success modal with booking details
+                if (paymentModal) paymentModal.hide();
                 showSuccessModal(data.data);
-                
-                // Reset form
                 this.reset();
                 this.classList.remove('was-validated');
                 document.getElementById('rekeningDetail').style.display = 'none';
-                
-                console.log('Success handled');
             } else {
                 console.log('Error response:', data);
                 showErrorModal(data.message || 'Terjadi kesalahan saat memproses booking.');
-                
-                // Show validation errors if any
                 if (data.errors) {
                     let errorMessages = '';
                     for (const field in data.errors) {
@@ -599,133 +546,91 @@
                 }
             }
         })
-        .catch((error) => {
+        .catch(error => {
             console.error('Fetch error:', error);
             showErrorModal('Terjadi kesalahan saat memproses booking: ' + error.message);
         })
         .finally(() => {
-            // Re-enable submit button
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Konfirmasi Pembayaran';
             }
-            console.log('Request completed');
         });
     });
 
-    // View Booking Button - Click event
-    const viewBookingBtn = document.getElementById('viewBookingBtn');
-    if (viewBookingBtn) {
-        viewBookingBtn.addEventListener('click', function() {
-            // Hide the status modal
-            const statusModal = bootstrap.Modal.getInstance(document.getElementById('bookingStatusModal'));
-            if (statusModal) {
-                statusModal.hide();
-            }
-            
-            console.log('Redirect to booking detail page would happen here');
-        });
-    }
+    // View Booking Button
+    document.getElementById('viewBookingBtn').addEventListener('click', function () {
+        const statusModal = bootstrap.Modal.getInstance(document.getElementById('bookingStatusModal'));
+        if (statusModal) statusModal.hide();
+    });
 
-    // Close Modal Button - Click event
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', function() {
-            // Hide the status modal
-            const statusModal = bootstrap.Modal.getInstance(document.getElementById('bookingStatusModal'));
-            if (statusModal) {
-                statusModal.hide();
-            }
-        });
-    }
+    // Close Modal Button
+    document.getElementById('closeModalBtn').addEventListener('click', function () {
+        const statusModal = bootstrap.Modal.getInstance(document.getElementById('bookingStatusModal'));
+        if (statusModal) statusModal.hide();
+    });
 
-    // Function untuk menampilkan modal loading
+    // Show loading modal
     function showLoadingModal() {
-        console.log('Showing loading modal'); // Debug log
-        
         document.getElementById('loadingIcon').style.display = 'block';
         document.getElementById('successIcon').style.display = 'none';
         document.getElementById('errorIcon').style.display = 'none';
         document.getElementById('bookingDetails').style.display = 'none';
-        
-        const viewBtn = document.getElementById('viewBookingBtn');
-        if (viewBtn) viewBtn.style.display = 'none';
-        
+        document.getElementById('viewBookingBtn').style.display = 'none';
         document.getElementById('statusTitle').textContent = 'Memproses Booking...';
         document.getElementById('statusMessage').textContent = 'Mohon tunggu, booking Anda sedang diproses.';
         document.getElementById('closeButtonText').textContent = 'Tunggu...';
         document.getElementById('closeModalBtn').disabled = true;
-        
+
         const modal = new bootstrap.Modal(document.getElementById('bookingStatusModal'));
         modal.show();
     }
 
-    // Function untuk menampilkan modal success
+    // Show success modal
     function showSuccessModal(data = {}) {
-        console.log('Showing success modal with data:', data); // Debug log
-        
         document.getElementById('loadingIcon').style.display = 'none';
         document.getElementById('successIcon').style.display = 'block';
         document.getElementById('errorIcon').style.display = 'none';
         document.getElementById('bookingDetails').style.display = 'block';
-        
-        const viewBtn = document.getElementById('viewBookingBtn');
-        if (viewBtn) viewBtn.style.display = 'inline-block';
-        
+        document.getElementById('viewBookingBtn').style.display = 'inline-block';
         document.getElementById('statusTitle').textContent = 'Booking Berhasil!';
-        document.getElementById('statusMessage').textContent = 'Booking Anda telah berhasil dibuat dan sedang dalam proses review oleh admin.';
-        
-        // Update booking details
+        document.getElementById('statusMessage').textContent =
+            'Booking Anda telah berhasil dibuat dan sedang dalam proses review oleh admin.';
         document.getElementById('bookingId').textContent = data.bookingId || '#BK' + Date.now();
         document.getElementById('bookingDate').textContent = data.bookingDate || new Date().toLocaleDateString('id-ID');
         document.getElementById('totalPayment').textContent = data.totalPayment || 'Rp 0';
         document.getElementById('bookingStatus').textContent = data.status || 'Pending Review';
-        
         document.getElementById('closeButtonText').textContent = 'Selesai';
         document.getElementById('closeModalBtn').disabled = false;
-        
-        // Show toast notification
+
         showToast('success', 'Booking Berhasil!', 'Booking Anda telah berhasil dibuat.');
     }
 
-    // Function untuk menampilkan modal error
+    // Show error modal
     function showErrorModal(errorMessage = 'Terjadi kesalahan saat memproses booking.') {
-        console.log('Showing error modal:', errorMessage); // Debug log
-        
         document.getElementById('loadingIcon').style.display = 'none';
         document.getElementById('successIcon').style.display = 'none';
         document.getElementById('errorIcon').style.display = 'block';
         document.getElementById('bookingDetails').style.display = 'none';
-        
-        const viewBtn = document.getElementById('viewBookingBtn');
-        if (viewBtn) viewBtn.style.display = 'none';
-        
+        document.getElementById('viewBookingBtn').style.display = 'none';
         document.getElementById('statusTitle').textContent = 'Booking Gagal';
         document.getElementById('statusMessage').textContent = errorMessage;
         document.getElementById('closeButtonText').textContent = 'Tutup';
         document.getElementById('closeModalBtn').disabled = false;
-        
-        // Show toast notification
+
         showToast('error', 'Booking Gagal', errorMessage);
     }
 
-    // Function untuk menampilkan toast notification - DIPERBAIKI
+    // Show toast notification
     function showToast(type, title, message) {
-        console.log('Showing toast:', type, title, message); // Debug log
-        
-        if (!bookingToast) {
-            console.error('Toast element not found');
-            return;
-        }
-        
+        if (!bookingToast) return;
+
         const toast = new bootstrap.Toast(bookingToast, {
             autohide: true,
             delay: 5000
         });
-        
+
         const toastIcon = document.getElementById('toastIcon');
-        
-        // Set icon based on type
         if (toastIcon) {
             toastIcon.className = 'rounded me-2';
             if (type === 'success') {
@@ -736,54 +641,47 @@
                 toastIcon.innerHTML = '<i class="fas fa-info-circle text-primary"></i>';
             }
         }
-        
-        const titleElement = document.getElementById('toastTitle');
-        const messageElement = document.getElementById('toastMessage');
-        const timeElement = document.getElementById('toastTime');
-        
-        if (titleElement) titleElement.textContent = title;
-        if (messageElement) messageElement.innerHTML = message;
-        if (timeElement) timeElement.textContent = 'Baru saja';
-        
-        // Show toast
+
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').innerHTML = message;
+        document.getElementById('toastTime').textContent = 'Baru saja';
+
         toast.show();
-        
-        console.log('Toast shown');
     }
 
     // Initialize date pickers
     function initializeDatePickers() {
         const startDateInput = document.getElementById('start_date');
         const endDateInput = document.getElementById('end_date');
-        
+
         if (startDateInput) {
-            // Set minimum date to today
             const today = new Date().toISOString().split('T')[0];
             startDateInput.setAttribute('min', today);
         }
-        
+
         if (endDateInput) {
-            // Disable end date input (it will be calculated automatically)
             endDateInput.setAttribute('readonly', 'true');
         }
     }
 
-    // Initialize the page
-    initializeDatePickers();
-    
-    // Check for Laravel session messages - PERBAIKI SINTAKS
+    // Debug hamburger click
+    document.querySelector('.navbar-toggler').addEventListener('click', function () {
+        console.log('Hamburger menu clicked!');
+    });
+
+    // Check for Laravel session messages
     const successMessage = document.querySelector('meta[name="success-message"]');
     const errorMessage = document.querySelector('meta[name="error-message"]');
-    
+
     if (successMessage) {
         showToast('success', 'Berhasil!', successMessage.getAttribute('content'));
     }
-    
+
     if (errorMessage) {
         showToast('error', 'Error!', errorMessage.getAttribute('content'));
     }
-    
-    console.log('JavaScript initialized'); // Debug log
+
+    initializeDatePickers();
 });
 </script>
 @endpush
@@ -795,7 +693,6 @@
             opacity: 0;
             transform: translateY(-50px);
         }
-
         to {
             opacity: 1;
             transform: translateY(0);
@@ -813,6 +710,7 @@
 
     .toast-container {
         z-index: 1060;
+        top: 70px !important; /* Geser ke bawah agar tidak menutupi navbar */
     }
 
     /* Loading spinner */
@@ -820,7 +718,6 @@
         0% {
             transform: rotate(0deg);
         }
-
         100% {
             transform: rotate(360deg);
         }
@@ -836,12 +733,10 @@
             opacity: 0;
             transform: scale(0.3);
         }
-
         50% {
             opacity: 1;
             transform: scale(1.1);
         }
-
         100% {
             opacity: 1;
             transform: scale(1);

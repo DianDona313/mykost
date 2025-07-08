@@ -50,13 +50,6 @@
 
 
 <!-- JavaScript Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/templates/landing/lib/easing/easing.min.js"></script>
-<script src="/templates/landing/lib/waypoints/waypoints.min.js"></script>
-<script src="/templates/landing/lib/lightbox/js/lightbox.min.js"></script>
-<script src="/templates/landing/lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="/templates/landing/js/main.js"></script>
-@stack('scripts')
 </body>
 
 </html>
