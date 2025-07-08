@@ -125,11 +125,15 @@
                                                    class="form-control @error('no_telp_pengelola') is-invalid @enderror" 
                                                    id="no_telp_pengelola" 
                                                    value="{{ old('no_telp_pengelola') }}"
-                                                   placeholder="08xx-xxxx-xxxx"
+                                                   placeholder="628xx-xxxx-xxxx"
                                                    required>
                                             @error('no_telp_pengelola')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Awali nomor HP dengan <strong>62</strong> (bukan 0)
+                                            </div>
                                         </div>
                                     </div>
 
@@ -263,20 +267,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Phone number formatting
-    const phoneInput = document.getElementById('no_telp_pengelola');
-    phoneInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.startsWith('0')) {
-                // Format: 08xx-xxxx-xxxx
-                value = value.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
-            } else if (value.startsWith('62')) {
-                // Format: +62xxx-xxxx-xxxx
-                value = '+' + value.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1$2-$3-$4');
-            }
-        }
-        e.target.value = value;
-    });
+    // const phoneInput = document.getElementById('no_telp_pengelola');
+    // phoneInput.addEventListener('input', function(e) {
+    //     let value = e.target.value.replace(/\D/g, '');
+    //     if (value.length > 0) {
+    //         if (value.startsWith('0')) {
+    //             // Format: 08xx-xxxx-xxxx
+    //             value = value.replace(/(\d{4})(\d{4})(\d{4})/, '$1-$2-$3');
+    //         } else if (value.startsWith('62')) {
+    //             // Format: +62xxx-xxxx-xxxx
+    //             value = '+' + value.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1$2-$3-$4');
+    //         }
+    //     }
+    //     e.target.value = value;
+    // });
 
     // Form validation
     const form = document.getElementById('pengelolaForm');
