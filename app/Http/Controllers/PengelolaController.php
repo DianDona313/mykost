@@ -93,7 +93,7 @@ class PengelolaController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'no_telp_pengelola' => 'required|string|max:15',
+            'no_telp_pengelola' => 'required|string',
             'alamat' => 'required|string|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'nullable|string',
