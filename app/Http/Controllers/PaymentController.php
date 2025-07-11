@@ -248,7 +248,7 @@ class PaymentController extends Controller
             ]);
 
             // Update room availability berdasarkan property_id dari booking
-            Room::where('properti_id', $booking->property_id)
+            Room::where('id', $booking->room_id)
                 ->update(['is_available' => false]); // Gunakan boolean untuk clarity
 
             // Commit transaction jika semua berhasil

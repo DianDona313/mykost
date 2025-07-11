@@ -131,7 +131,6 @@ Route::post('pengeluaran-kost-bulk-delete', [PengeluaranKostController::class, '
 Route::get('/pengeluaran-kost/detail/{id}', [PengeluaranKostController::class, 'show'])
     ->name('pengeluaran-kost.detail');
 
-
 Route::get('list-kamar', [LandingController::class, 'all_rooms'])->name('all_rooms');
 Route::get('all_kost', [LandingController::class, 'all_kost'])->name('all_kost');
 Route::get("chat_bot", function () {

@@ -50,7 +50,7 @@ class LandingController extends Controller
             'metode_pembayaran_id' => 'required',
             'total_harga' => 'required',
             'jumlah_yang_bayar' => 'required',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'jumlah' => 'required|integer|min:1',
@@ -102,16 +102,15 @@ class LandingController extends Controller
             }
 
             // Handle file upload
-            $fotoPath = null;
             if ($request->hasFile('foto')) {
                 $file = $request->file('foto');
-
-                // Generate unique filename
                 $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                // Store file to storage/app/public/bukti_pembayaran
                 $fotoPath = $file->storeAs('bukti_pembayaran', $fileName, 'public');
+            } else {
+                // Path default jika tidak upload
+                $fotoPath = 'bukti_pembayaran/logo.png'; // Pastikan file ini ada di storage/app/public/bukti_pembayaran
             }
+
 
             // Data untuk booking
             $data_booking = [
@@ -130,7 +129,7 @@ class LandingController extends Controller
             $booking = Booking::create($data_booking);
             $properti = Properties::with(['jenisKost', 'metode_pembayaran'])->find($data['properti_id']);
             $pengelolas = $properti->pengelolas;
-            $metodePembayaran = Metode_Pembayaran::where('id','=',$data['metode_pembayaran_id'])->first();
+            $metodePembayaran = Metode_Pembayaran::where('id', '=', $data['metode_pembayaran_id'])->first();
 
             foreach ($pengelolas as $pengelola) {
                 $jenisKost = $properti->jenisKost ? $properti->jenisKost->nama : '-';

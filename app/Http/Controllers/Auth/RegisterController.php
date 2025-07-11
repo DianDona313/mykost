@@ -43,9 +43,12 @@ class RegisterController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('foto')) {
-            // Simpan file foto ke folder 'public/fotos'
             $path = $request->file('foto')->store('fotos', 'public');
-            $data['foto'] = $path; // Simpan path file ke data user
+            $data['foto'] = $path;
+        } else {
+            
+            $data['foto'] = 'fotos/profile.png'; 
+
         }
         $data_user = array();
 

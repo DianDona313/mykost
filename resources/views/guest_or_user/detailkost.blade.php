@@ -292,6 +292,7 @@
                     </div>
                     {{-- @include('guest_or_user.kamar_list') --}}
                     <!-- Available Rooms Section -->
+                    <!-- Available Rooms Section -->
                     <meta name="csrf-token" content="{{ csrf_token() }}">
                     @if (session('success'))
                         <meta name="success-message" content="{{ session('success') }}">
@@ -302,7 +303,6 @@
                     <h3 class="fw-bold mb-2 text-center" style="color: #398423;">Kamar Tersedia</h3>
                     <div class="container-fluid rooms py-3">
                         <div class="container py-3">
-
                             <div class="text-center">
                                 <div class="row g-4 align-items-center mb-4">
                                     <div class="col-lg-6 text-start">
@@ -315,7 +315,7 @@
                                 </div>
 
                                 <div class="row g-4">
-                                    @foreach ($rooms as $room)
+                                    @forelse ($availableRooms as $room)
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="card h-100 border-secondary" style="max-height: 400px;">
                                                 <!-- Room Image -->
@@ -333,10 +333,6 @@
                                                         style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
                                                         {{ $room->room_deskription }}
                                                     </p>
-
-                                                    {{-- 
-                                <pre>{{ json_encode($room->properti->metode_pembayaran) }}</pre> 
-                                --}}
 
                                                     <!-- Room Price & Booking Button -->
                                                     <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -360,7 +356,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="col-12 text-center">
+                                            <p class="text-muted">Tidak ada kamar tersedia saat ini.</p>
+                                        </div>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -554,7 +554,7 @@
                                         <div class="form-group mt-3">
                                             <label for="foto" class="form-label">Bukti Pembayaran</label>
                                             <input type="file" class="form-control" id="foto" name="foto"
-                                                accept="image/*" required>
+                                                accept="image/*">
                                             <small class="text-muted">Upload foto bukti transfer (format: JPG/PNG, maks
                                                 2MB)</small>
                                         </div>
