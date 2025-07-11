@@ -270,14 +270,11 @@ class PropertiController extends Controller
         $property = Properties::with(['pengelola', 'peraturans', 'metode_pembayaran'])->findOrFail($id);
         $deleted_by = Auth::user()->id;
 
-        // Hapus relasi pengelola jika menggunakan pivot
         if ($property->pengelola()->exists()) {
-            // Update deleted_by di tabel pivot jika ada kolom deleted_by
-            // atau langsung detach jika tidak ada
+
             $property->pengelola()->detach();
         }
 
-        // Hapus relasi peraturans jika menggunakan pivot
         if ($property->peraturans()->exists()) {
             $property->peraturans()->detach();
         }
@@ -289,7 +286,6 @@ class PropertiController extends Controller
             // Detach dari properti
             $property->metode_pembayaran()->detach();
 
-            // Soft delete metode pembayaran yang sudah tidak digunakan properti lain
             foreach ($metodePembayaranIds as $metodeId) {
                 $metode = Metode_Pembayaran::find($metodeId);
                 if ($metode) {
@@ -332,13 +328,13 @@ class PropertiController extends Controller
             return $room->fasilitas;
         })->unique('id')->values();
 
-        $availableRooms = $properties->rooms->where('is_available', 1);
+        $availableRooms = $properties->rooms->where('is_available', "=", 1);
 
         return view('guest_or_user.detailkost', [
             'properties' => $properties,
             'allFasilitas' => $allFasilitas,
             'availableRooms' => $availableRooms,
-            'rooms' => $properties->rooms, // <— ini solusi agar tidak undefined
+            // Remove 'rooms' => $properties->rooms, if you only want to show available rooms
         ]);
     }
 

@@ -224,7 +224,7 @@
                                     <i class="fas fa-image me-2"></i>Foto Profil <span class="text-danger">*</span>
                                 </label>
                                 <input type="file" name="foto" class="form-control" accept="image/*"
-                                    id="foto" required>
+                                    id="foto" >
                                 <div class="form-text">
                                     <i class="fas fa-info-circle me-1"></i>Format yang diterima: JPG, PNG, GIF. Ukuran
                                     maks: 2MB.
